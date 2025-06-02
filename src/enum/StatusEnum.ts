@@ -1,0 +1,10 @@
+export enum StatusEnum {
+    PENDING = 'PENDING',
+    REJECTED = 'REJECTED',
+    APPROVED  = 'APPROVED',
+    ACTIVE  = 'ACTIVE', 
+    INACTIVE  = 'INACTIVE',
+    ASSIGNED = "ASSIGNED",
+    TERMINATED = "TERMINATED"
+  }
+  
