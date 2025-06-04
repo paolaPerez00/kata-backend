@@ -1,18 +1,46 @@
 import { Request, Response } from "express";
 import UserService  from "../services/userService";
+import DepartmentService from "../services/departmentService";
+import RoleService from "../services/roleService";
 
 export default class UserController {
 
     private userService: UserService;
+    private departmentService: DepartmentService;
+    private roleService: RoleService;
 
     constructor(){
         this.userService = new UserService();
+        this.roleService = new RoleService();
+        this.departmentService = new DepartmentService();
     }
 
     getUser = async(req: Request, res: Response): Promise<void> => {
         try {
             const users = await this.userService.findAll();
             res.json(users);
+        } catch (error) {
+            if (error instanceof Error){
+                res.status(500).json({ message: error.message });
+            }
+        }
+    }
+
+    getDepartment = async(req: Request, res: Response): Promise<void> => {
+        try {
+            const departments = await this.departmentService.findDepartments();
+            res.json(departments);
+        } catch (error) {
+            if (error instanceof Error){
+                res.status(500).json({ message: error.message });
+            }
+        }
+    }
+
+    getRole = async(req: Request, res: Response): Promise<void> => {
+        try {
+            const roles = await this.roleService.findAll();
+            res.json(roles);
         } catch (error) {
             if (error instanceof Error){
                 res.status(500).json({ message: error.message });

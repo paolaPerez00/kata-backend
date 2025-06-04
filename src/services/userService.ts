@@ -1,12 +1,17 @@
 import { Repository } from "typeorm";
 import { User } from "../models/userModel";
 import { AppDataSource } from "../database/conection";
+import StatusService from "./statusService";
+import { Status } from "../models/statusModel";
+import { StatusEnum } from "../enum/StatusEnum";
 
 export default class UserService {
     private userRepository: Repository<User>;
+    private statusService: StatusService;
 
     constructor() {
         this.userRepository = AppDataSource.getRepository(User);
+        this.statusService = new StatusService();
     }
 
     findAll = async () => {
@@ -37,6 +42,13 @@ export default class UserService {
     }
 
     create = async (userData: Partial<User>) => {
+        const statuses = this.statusService.findAll();
+        const idStatus = (await statuses).find((status: Status) => status.description === StatusEnum.ACTIVE )?.idStatus;
+        userData =  {
+            ...userData,
+            status: { idStatus } as any
+        }
+        console.log("usuer ", userData)
         const user = this.userRepository.create(userData);
         return await this.userRepository.save(user);
     }

@@ -10,12 +10,7 @@ export default class RoleService {
     }
 
     findAll = async () => {
-        return await this.roleRepository.find({
-            relations: {
-                users: true,
-                accesRole: true
-            }
-        });
+        return await this.roleRepository.find();
     }
 
     findById = async (idRole: number): Promise<Role | null> => {
